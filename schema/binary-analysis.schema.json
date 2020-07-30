@@ -1,0 +1,32 @@
+{
+    "type": "object",
+    "description" : "Firmware binary analysis data",
+    "properties": {
+        "name": { "type": "string", "description" : "Binary file name or friendly app name" },
+        "build": { "type": "string", "description" : "Unique build varaint identifier as needed" },
+        "revision": { "type": "string", "minLength": 4, "description" : "hash of git commit for this build" },
+        "parent_revision": { "type": "string", "minLength": 4, "description" : "hash of parent git commit" },
+        "text": { "type": "integer", "minimum": 0, "description" : "size of the .text section in bytes" },
+        "data": { "type": "integer", "minimum": 0, "description" : "size of the .data section in bytes" },
+        "bss": { "type": "integer", "minimum": 0, "description" : "size of the .bss section in bytes" },
+        "flash": { "type": "integer", "minimum": 0, "description" : "total size of FLASH in bytes" },
+        "ram": { "type": "integer", "minimum": 0, "description" : "total size of SRAM in bytes" },
+        "symbols": {
+            "type": "array",
+            "uniqueItems": true,
+            "description" : "List of symbols in the binary and thier metadata",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "path" : { 
+                        "type":"array",
+                        "description" : "Hierachical path of object. Nominally `section->path->name`",
+                        "items": { "type":"string" }
+                    },
+                    "size" : { "type": "integer", "minimum": 0, "description" : "size of this object in bytes" },
+                    "address" : { "type": "integer", "minimum": 0, "description" : "address of the object in memory" }
+                }
+            }
+        }
+    }
+}
